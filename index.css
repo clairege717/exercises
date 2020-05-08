@@ -1,0 +1,77 @@
+:root {
+    --conatiner-width: 100vw;
+    --container-height: 100vh;
+    --battery-width: 9em;
+    --battery-height: 5em;
+    --battery-border-width: 1em;
+    --battery-border-color: black;
+    --battery-container-color: green;
+}
+
+body {
+    font-size: 12px;
+    padding: 0;
+    margin: 0;
+    width: var(--conatiner-width);
+    height: var(--container-height);
+}
+
+.conatiner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: var(--battery-border-width);
+    flex-direction: column;
+}
+
+.battery {
+    width: var(--battery-width);
+    height: var(--battery-height);
+    border: var(--battery-border-width) solid var(--battery-border-color);
+    padding: calc(var(--battery-border-width) / 2);
+    box-sizing: content-box;
+    background-image: linear-gradient(to right, white 30%, var(--battery-container-color) 30%);
+    background-repeat: repeat-x;
+    background-size: 30% 100%;
+    /* 背景被裁剪到内容框 */
+    background-clip: content-box;
+    transform: rotate(180deg);
+}
+
+.battery::after {
+    content: '';
+    width: var(--battery-border-width);
+    height: calc(2 * var(--battery-border-width));
+    background-color: var(--battery-border-color);
+    position: absolute;
+    left: calc(-2 * var(--battery-border-width));
+    top: calc(2 * var(--battery-border-width));
+}
+
+.battery::before {
+    content: '';
+    width: var(--battery-width);
+    height: var(--battery-height);
+    position: absolute;
+    background-color: white;
+    /* 若需要轮流反向播放，可加上“alternate”属性 */
+    animation: battery-charge 1.5s steps(4) infinite;
+}
+
+@keyframes battery-charge {
+    from {
+        width: var(--battery-width);
+    }
+
+    33.333333% {
+        width: calc(var(--battery-width) / 3 * 2);
+    }
+
+    66.666667% {
+        width: calc(var(--battery-width) / 3);
+    }
+
+    to {
+        width: 0px;
+    }
+}
